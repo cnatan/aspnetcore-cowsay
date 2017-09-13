@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:latest
+FROM microsoft/dotnet:1.1-sdk
 
 COPY . /app
 
@@ -8,6 +8,6 @@ RUN ["dotnet", "restore"]
 
 RUN ["dotnet", "build"]
 
-EXPOSE 80/tcp
+EXPOSE 8080/tcp
 
-CMD ["dotnet", "run", "--server.urls", "http://*:80"]
+CMD ["dotnet", "run", "--server.urls", "http://*:8080"]

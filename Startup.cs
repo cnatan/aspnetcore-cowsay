@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace AspnetCoreCowsay
 {
@@ -29,10 +30,13 @@ namespace AspnetCoreCowsay
             }
 
             app.UseStaticFiles();
-
-            //var cowsayMessage = Environment.GetEnvironmentVariable("COWSAY_MESSAGE");
-            var cowsayMessage = "Palmeiras não tem mundial.";
+            var cowsayMessage = Environment.GetEnvironmentVariable("COWSAY_MESSAGE");
+            if(cowsayMessage == null){
+                cowsayMessage = "Palmeiras não tem mundial.";
+            }
             app.Use((context,next)=>{
+            var httpConnectionFeature = context.Features.Get<IHttpConnectionFeature>();
+            var localIpAddress = httpConnectionFeature?.LocalIpAddress;
 
                 if(context.Request.Path.Value == "/"){
                     string cow = Cowsay.GetCowsay(cowsayMessage, AnimalMode.Paranoid);
