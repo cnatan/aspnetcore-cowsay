@@ -39,6 +39,7 @@ namespace AspnetCoreCowsay
             var localIpAddress = httpConnectionFeature?.LocalIpAddress;
 
                 if(context.Request.Path.Value == "/"){
+                    cowsayMessage = $"{cowsayMessage} - {localIpAddress}";
                     string cow = Cowsay.GetCowsay(cowsayMessage, AnimalMode.Paranoid);
                     return context.Response.WriteAsync(cow.ToString());
                 }
